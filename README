@@ -1,0 +1,3 @@
+The EMSegment extension for Slicer4.
+
+Until some infrastructure is ready, it is required to create a symbolic link named 'Qt', pointing to a Slicer3/Modules/EMSegment/Qt directory, in the Slicer4/QTModules/EMSegment4/ directory.
