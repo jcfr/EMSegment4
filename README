@@ -2,8 +2,18 @@ The EMSegment extension for Slicer4.
 
 Until some infrastructure is ready, it is required to perform the following steps to successfully compile EMSegment4:
 
-  1. create a symbolic link named 'EMS', pointing to a Slicer3/Modules/EMSegment/ directory, in the Slicer4/QTModules/EMSegment4/ directory.
-  2. copy Slicer3-build/Modules/EMSegment/vtkEMSegmentConfigure.h to Slicer4-Superbuild/Slicer-build/QTModules/EMSegment4/EMS/
+  1. cd Slicer4/QTModules/
+
+  2. git clone git@github.com:haehn/EMSegment4.git
+
+  3. create a symbolic link named 'EMS', pointing to a Slicer3/Modules/EMSegment/ directory, in the Slicer4/QTModules/EMSegment4/ directory.
+
+  4. copy Slicer3-build/Modules/EMSegment/vtkEMSegmentConfigure.h to Slicer4-Superbuild/Slicer-build/QTModules/EMSegment4/EMS/
+
+  5. include EMSegment4 in Slicer4/QTModules/CMakeLists.txt
+
+  6. re-compile Slicer4/QTModules
+
 
 Cheers :)
 
