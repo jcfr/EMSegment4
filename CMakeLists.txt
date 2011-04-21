@@ -61,7 +61,7 @@
 
 # temporary solution, include the Slicer3/Modules/EMSegment directory
 SET(EM_Slicer4_FOUND ON)
-ADD_SUBDIRECTORY(Qt)
+ADD_SUBDIRECTORY(EMS)
 
 # Module name (usually identique to the directory name)
 SET(qt_module_name "EMSegment4")

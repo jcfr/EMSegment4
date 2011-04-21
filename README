@@ -1,3 +1,9 @@
 The EMSegment extension for Slicer4.
 
-Until some infrastructure is ready, it is required to create a symbolic link named 'Qt', pointing to a Slicer3/Modules/EMSegment/Qt directory, in the Slicer4/QTModules/EMSegment4/ directory.
+Until some infrastructure is ready, it is required to perform the following steps to successfully compile EMSegment4:
+
+  1. create a symbolic link named 'EMS', pointing to a Slicer3/Modules/EMSegment/ directory, in the Slicer4/QTModules/EMSegment4/ directory.
+  2. copy Slicer3-build/Modules/EMSegment/vtkEMSegmentConfigure.h to Slicer4-Superbuild/Slicer-build/QTModules/EMSegment4/EMS/
+
+Cheers :)
+
