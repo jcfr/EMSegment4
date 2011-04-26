@@ -9,67 +9,49 @@ if(POLICY CMP0017)
   CMAKE_POLICY(SET CMP0017 OLD)
 endif()
 
-
-include( ExternalProject )
-
-# Fetch the EMSegment Package
 #-----------------------------------------------------------------------------
-# Sanity checks
-if(DEFINED EMS_DIR AND NOT EXISTS ${EMS_DIR})
-  message(FATAL_ERROR "EMS_DIR variable is defined but corresponds to non-existing directory")
-endif()
-
-set(proj EMS)
-
-# re-define git protocol if necessary
-if(NOT DEFINED git_protocol)
-  set( git_protocol "git")
-endif()
-
-if(NOT DEFINED EMS_DIR)
-  message(STATUS "Adding external project: ${proj}")
-  ExternalProject_Add(${proj}
-    # for development, use own git repo
-    # SVN_REPOSITORY http://svn.slicer.org/Slicer3/trunk/Modules/EMSegment/
-    GIT_REPOSITORY "${git_protocol}://github.com/haehn/EMSegment3.git"
-    GIT_TAG "origin/master"    
-    SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/${proj}
-    BINARY_DIR ${proj}-build
-    CMAKE_GENERATOR ${gen}
-    CMAKE_ARGS
-      ${ep_common_args}
-      -DBUILDNAME:STRING=${BUILDNAME}
-      -DSITE:STRING=${SITE}
-      -DMAKECOMMAND:STRING=${MAKECOMMAND}
-      -DCMAKE_BUILD_TYPE:STRING=${build_type}
-      -DBUILD_SHARED_LIBS:BOOL=ON
-      -DBUILD_EXAMPLES:BOOL=OFF
-      -DBUILD_TESTING:BOOL=OFF
-      -DBUILD_DOCUMENTATION:BOOL=OFF
-      -DCMAKE_CXX_FLAGS:STRING=${ep_common_cxx_flags}
-      -DCMAKE_C_FLAGS:STRING=${ep_common_c_flags}
-      -DCMAKE_INSTALL_PREFIX:PATH=${CMAKE_CURRENT_BINARY_DIR}/Install
-      # we use Slicer's VTK and ITK
-      -DUSE_SYSTEM_VTK:BOOL=ON
-      -DUSE_SYSTEM_ITK:BOOL=ON
-      -DITK_DIR:PATH=${ITK_DIR}
-      -DVTK_DIR:PATH=${VTK_DIR}
-      -DGIT_EXECUTABLE:FILEPATH=${GIT_EXECUTABLE}      
-      # we use Slicer4
-      -DEM_Slicer4_FOUND:BOOL=ON
-    INSTALL_COMMAND ""
-    DEPENDS 
-      ${EMS_DEPENDENCIES}
-    )
-  set(EMS_DIR ${CMAKE_CURRENT_BINARY_DIR}/${proj}-build)
-endif()
-# End of EMSegment External
+# Prerequisites
 #-----------------------------------------------------------------------------
+FIND_PACKAGE(Slicer REQUIRED)
 
+#-----------------------------------------------------------------------------
 # Module name (usually identique to the directory name)
-SET(qt_module_name "EMSegment4")
+#-----------------------------------------------------------------------------
+SET(EXTENSION_NAME EMSegment4)
+
+#-----------------------------------------------------------------------------
+# Superbuild Option - Enabled by default
+#-----------------------------------------------------------------------------
+OPTION(EMSegment4_SUPERBUILD "Build EMSegment4 and the projects it depends on via SuperBuild.cmake." ON)
+MARK_AS_ADVANCED(EMSegment4_SUPERBUILD)
+
+#-----------------------------------------------------------------------------
+# Additional C/CXX flags
+#-----------------------------------------------------------------------------
+SET(ADDITIONAL_C_FLAGS "" CACHE STRING "Additional ${EXTENSION_NAME} C Flags")
+SET(ADDITIONAL_CXX_FLAGS "" CACHE STRING "Additional ${EXTENSION_NAME} CXX Flags")
+
+#-----------------------------------------------------------------------------
+# Superbuild script
+#-----------------------------------------------------------------------------
+IF(EMSegment4_SUPERBUILD)
+  INCLUDE("${CMAKE_CURRENT_SOURCE_DIR}/SuperBuild.cmake")
+  RETURN()
+ENDIF()
+
+#-----------------------------------------------------------------------------
+# Extension description
+#-----------------------------------------------------------------------------
+SET(EXTENSION_HOMEPAGE "http://www.slicer.org/slicerWiki/index.php/Slicer4:Developers:Projects:QtSlicer/Tutorials/ExtensionWriting")
+SET(EXTENSION_CATEGORY "Examples")
+SET(EXTENSION_STATUS "Beta")
+SET(EXTENSION_DESCRIPTION "This is an example of Qt loadable module built as an extension")
 
 SET(qt_module_export_directive "Q_SLICER_QTMODULES_EMSEGMENT4_EXPORT")
+
+#-----------------------------------------------------------------------------
+# Sources
+#-----------------------------------------------------------------------------
 
 # Additional includes - Current_{source,binary} and Slicer_{Libs,Base} already included
 SET(qt_module_include_directories
@@ -98,8 +80,11 @@ SET(qt_module_target_libraries
 SET(qt_module_resources
 )
 
+#-----------------------------------------------------------------------------
+# Build
+#-----------------------------------------------------------------------------
 slicerMacroBuildQtModule(
-  NAME ${qt_module_name}
+  NAME ${EXTENSION_NAME}
   EXPORT_DIRECTIVE ${qt_module_export_directive}
   INCLUDE_DIRECTORIES ${qt_module_include_directories}
   SRCS ${qt_module_SRCS}
@@ -109,7 +94,25 @@ slicerMacroBuildQtModule(
   RESOURCES ${qt_module_resources}
   )
 
+#-----------------------------------------------------------------------------
+# Generate extension description file '<EXTENSION_NAME>.s4ext'
+#-----------------------------------------------------------------------------
+INCLUDE(SlicerFunctionGenerateExtensionDescription)
+slicerFunctionGenerateExtensionDescription(
+  EXTENSION_NAME ${EXTENSION_NAME}
+  EXTENSION_CATEGORY ${EXTENSION_CATEGORY} 
+  EXTENSION_STATUS ${EXTENSION_STATUS}
+  EXTENSION_HOMEPAGE ${EXTENSION_HOMEPAGE}
+  EXTENSION_DESCRIPTION ${EXTENSION_DESCRIPTION}
+  DESTINATION_DIR ${CMAKE_CURRENT_BINARY_DIR}
+  SLICER_WC_REVISION ${Slicer_WC_REVISION}
+  SLICER_WC_ROOT ${Slicer_WC_ROOT}
+  )
+INCLUDE(${Slicer_EXTENSION_CPACK})
 
+#-----------------------------------------------------------------------------
+# Testing
+#-----------------------------------------------------------------------------
 if(BUILD_TESTING)
   #add_subdirectory(Testing)
-endif(BUILD_TESTING)
+endif()
