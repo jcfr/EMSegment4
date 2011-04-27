@@ -32,13 +32,13 @@ endif()
 # EMSegment4 dependencies
 #-----------------------------------------------------------------------------
 set(EMS_DEPENDENCIES)
-include(SuperBuild/EMS.cmake)
+include(SuperBuild/EMSegment3.cmake)
 
 #-----------------------------------------------------------------------------
 # Configure and build EMSegment4
 #------------------------------------------------------------------------------
 
-set(EMSegment4_DEPENDENCIES EMS)
+set(EMSegment4_DEPENDENCIES EMSegment3)
 
 set(proj EMSegment4)
 ExternalProject_Add(${proj}
