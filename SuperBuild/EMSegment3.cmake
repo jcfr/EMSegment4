@@ -15,9 +15,9 @@ if(NOT DEFINED EMS3_DIR)
   message(STATUS "Adding external project: ${proj}")
   ExternalProject_Add(${proj}
     # for development, use own git repo
-    # SVN_REPOSITORY http://svn.slicer.org/Slicer3/trunk/Modules/EMSegment/
-    GIT_REPOSITORY "${git_protocol}://github.com/haehn/EMSegment3.git"
-    GIT_TAG "origin/master"    
+    SVN_REPOSITORY http://svn.slicer.org/Slicer3/trunk/Modules/EMSegment/
+    #GIT_REPOSITORY "${git_protocol}://github.com/haehn/EMSegment3.git"
+    #GIT_TAG "origin/master"    
     SOURCE_DIR ${CMAKE_CURRENT_BINARY_DIR}/${proj}
     BINARY_DIR ${proj}-build
     CMAKE_GENERATOR ${gen}
@@ -42,8 +42,8 @@ if(NOT DEFINED EMS3_DIR)
       -DGIT_EXECUTABLE:FILEPATH=${GIT_EXECUTABLE}
       # Slicer
       -DSlicer_DIR:PATH=${Slicer_DIR}
-      -DvtkSlicerVolumesModuleLogic_SOURCE_DIR:PATH=${vtkSlicerVolumesModuleLogic_SOURCE_DIR}
-      -DvtkSlicerVolumesModuleLogic_BINARY_DIR:PATH=${vtkSlicerVolumesModuleLogic_BINARY_DIR}
+      -DvtkSlicerVolumesModuleLogic_SOURCE_DIR:PATH=${Slicer_DIR}/../../Slicer4/Modules/Volumes/Logic/
+      -DvtkSlicerVolumesModuleLogic_BINARY_DIR:PATH=${Slicer_DIR}/Modules/Volumes/Logic/   
       # Python ? 
       # Tcl ?
       # we use Slicer4

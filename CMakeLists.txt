@@ -12,9 +12,7 @@ endif()
 #-----------------------------------------------------------------------------
 # Prerequisites
 #-----------------------------------------------------------------------------
-SET(Slicer_DIR ${Slicer_BINARY_DIR})
 FIND_PACKAGE(Slicer REQUIRED)
-INCLUDE(${Slicer_USE_FILE})
 
 #-----------------------------------------------------------------------------
 # Module name (usually identique to the directory name)
