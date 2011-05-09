@@ -12,7 +12,10 @@ endif()
 #-----------------------------------------------------------------------------
 # Prerequisites
 #-----------------------------------------------------------------------------
-FIND_PACKAGE(Slicer REQUIRED)
+IF(NOT Slicer_SOURCE_DIR)
+  FIND_PACKAGE(Slicer REQUIRED)
+  INCLUDE(${Slicer_USE_FILE})
+ENDIF()
 
 #-----------------------------------------------------------------------------
 # Module name (usually identique to the directory name)
