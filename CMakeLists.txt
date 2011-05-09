@@ -49,6 +49,8 @@ SET(EXTENSION_HOMEPAGE "http://www.slicer.org/slicerWiki/index.php/Slicer4:Devel
 SET(EXTENSION_CATEGORY "Examples")
 SET(EXTENSION_STATUS "Beta")
 SET(EXTENSION_DESCRIPTION "This is an example of Qt loadable module built as an extension")
+SET(EXTENSION_LICENSE_FILE ${Slicer_LICENSE_FILE})
+SET(EXTENSION_README_FILE ${Slicer_README_FILE})
 
 SET(qt_module_export_directive "Q_SLICER_QTMODULES_EMSEGMENT4_EXPORT")
 
