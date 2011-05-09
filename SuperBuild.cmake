@@ -43,6 +43,7 @@ set(EMSegment4_DEPENDENCIES EMSegment3)
 set(proj EMSegment4)
 ExternalProject_Add(${proj}
   DOWNLOAD_COMMAND ""
+  INSTALL_COMMAND ""
   SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}
   BINARY_DIR ${proj}-build
   CMAKE_GENERATOR ${gen}
